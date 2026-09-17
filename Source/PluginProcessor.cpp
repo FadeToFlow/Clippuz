@@ -229,6 +229,8 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
             x *= juce::Decibels::decibelsToGain(-4.6);
 
             x = hpf1[ch].processSample(x);
+
+            x -= 0.51f;
             
             data[i] = x;
         }       
