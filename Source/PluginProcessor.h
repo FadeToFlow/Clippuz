@@ -65,6 +65,7 @@ private:
   
     EqFilter eq1_f1  { EqFilter::Type::Peak, 383.1f, 7.2f, EqFilter::OctToQ(2.60f) };
     EqFilter eq1_f2  { EqFilter::Type::LowPass, 1956.8f, 0.0f, EqFilter::OctToQ(0.66f) };
+    EqFilter hpf1  { EqFilter::Type::HighPass, 1.0f, 0.0f, 1.0f / sqrtf(2.0f)};
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ClippuzAudioProcessor)
