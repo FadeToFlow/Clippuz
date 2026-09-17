@@ -128,6 +128,7 @@ void ClippuzAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
     eq1_f2.prepare(overSampleRate, getTotalNumInputChannels());
     hpf1.prepare(overSampleRate, getTotalNumInputChannels());
     hpf2.prepare(overSampleRate, getTotalNumInputChannels());
+    hpf3.prepare(overSampleRate, getTotalNumInputChannels());
 }
 
 void ClippuzAudioProcessor::releaseResources()
@@ -246,6 +247,7 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
                 x *= juce::Decibels::decibelsToGain(25.4);   
             }
 
+            x = hpf3[ch].processSample(x);
 
             data[i] = x;
         }       
