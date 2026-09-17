@@ -124,16 +124,7 @@ void ClippuzAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBloc
         setLatencySamples (0);
     }       
 
-    eq1_f1.clear();
-    eq1_f1.resize (static_cast<size_t> (getTotalNumInputChannels()));
-
-    updateEQCoefficients (overSampleRate);
-
-    for (auto& filter : eq1_f1)
-    {
-        filter.coefficients = eq1_f1_Coefficients;
-        filter.reset();
-    }
+    eq1_f1.prepare(overSampleRate, getTotalNumInputChannels());
 }
 
 void ClippuzAudioProcessor::releaseResources()
@@ -210,7 +201,7 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
             setLatencySamples (0);
         }  
         
-        updateEQCoefficients(overSampleRate);
+        eq1_f1.setSampleRate(overSampleRate);
     }
  
     if (osIndex > 0)
@@ -286,19 +277,4 @@ juce::AudioProcessorValueTreeState::ParameterLayout ClippuzAudioProcessor::creat
 
 
     return { params.begin(), params.end() };
-}
-
-void ClippuzAudioProcessor::updateEQCoefficients (double sampleRate)
-{
-    constexpr float freqHz = 383.1f;
-    constexpr float gainDb = 7.2f;
-    constexpr float bwOct  = 2.60f;
-
-    const float Q = 1.0f / (2.0f * std::sinh (0.5f * std::log (2.0f) * bwOct));
-    const float gainFactor = juce::Decibels::decibelsToGain (gainDb);
-
-    eq1_f1_Coefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter (sampleRate, freqHz, Q, gainFactor);
-
-    for (auto& filter : eq1_f1)
-        filter.coefficients = eq1_f1_Coefficients;  
 }

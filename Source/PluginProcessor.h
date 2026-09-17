@@ -9,6 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "EqFilter.h"
 
 //==============================================================================
 /**
@@ -61,11 +62,9 @@ private:
 
     size_t prevOsIndex;
 
-    std::vector<juce::dsp::IIR::Filter<float>> eq1_f1;
-    juce::dsp::IIR::Coefficients<float>::Ptr eq1_f1_Coefficients;
+  
+    EqFilter eq1_f1  { EqFilter::Type::Peak, 383.1f, 7.2f, EqFilter::OctToQ(2.60f) };
     
-
-    void updateEQCoefficients (double sampleRate);
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ClippuzAudioProcessor)
