@@ -8,7 +8,7 @@ EqFilter::EqFilter(Type type, float freqHz, float gainDb, float Q)
 
 void EqFilter::updateCoefficients()
 {
-    using C = juce::dsp::IIR::Coefficients<float>;
+    using C = juce::dsp::IIR::Coefficients<double>;
 
     switch (m_type)
     {

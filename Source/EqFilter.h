@@ -27,8 +27,8 @@ public:
     void prepare(double sampleRate, int numOfCh);
     void setSampleRate(double sampleRate);
 
-    juce::dsp::IIR::Filter<float>&       operator[](int ch)       { return m_filters[ch]; }
-    const juce::dsp::IIR::Filter<float>& operator[](int ch) const { return m_filters[ch]; }
+    juce::dsp::IIR::Filter<double>&       operator[](int ch)       { return m_filters[ch]; }
+    const juce::dsp::IIR::Filter<double>& operator[](int ch) const { return m_filters[ch]; }
 
 private:
     Type m_type;
@@ -39,8 +39,8 @@ private:
 
     int m_numOfCh;
 
-    juce::dsp::IIR::Coefficients<float>::Ptr m_coefficients;
-    std::vector<juce::dsp::IIR::Filter<float>> m_filters;
+    juce::dsp::IIR::Coefficients<double>::Ptr m_coefficients;
+    std::vector<juce::dsp::IIR::Filter<double>> m_filters;
 
 
 };
