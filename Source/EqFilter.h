@@ -26,6 +26,8 @@ public:
     void updateCoefficients();
     void prepare(double sampleRate, int numOfCh);
     void setSampleRate(double sampleRate);
+    void setFreq(float freqHz);
+    void setQ(float Q);
 
     juce::dsp::IIR::Filter<double>&       operator[](int ch)       { return m_filters[ch]; }
     const juce::dsp::IIR::Filter<double>& operator[](int ch) const { return m_filters[ch]; }

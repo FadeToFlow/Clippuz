@@ -71,3 +71,21 @@ void EqFilter::setSampleRate(double sampleRate)
 
     updateCoefficients();
 }
+
+void EqFilter::setFreq(float freqHz)
+{
+    if (juce::approximatelyEqual(m_freqHz, freqHz))
+        return;    
+
+    m_freqHz = freqHz;
+    updateCoefficients();
+}
+
+void EqFilter::setQ(float Q)
+{
+    if (juce::approximatelyEqual(m_Q, Q))
+        return;    
+
+    m_Q = Q;
+    updateCoefficients();
+}

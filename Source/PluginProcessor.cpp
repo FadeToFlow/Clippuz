@@ -187,6 +187,10 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     float driveDb = apvts.getRawParameterValue("DRIVE")->load();
     float driveGain = juce::Decibels::decibelsToGain(driveDb);
 
+    float lpFreq = apvts.getRawParameterValue("LPFREQ")->load();
+    eq1_f2.setFreq(lpFreq);
+    float lpQ = apvts.getRawParameterValue("LPQ")->load();
+    eq1_f2.setQ(lpQ);
 
     juce::dsp::AudioBlock<float> mainBlock(buffer);
     juce::dsp::AudioBlock<float> blockToProcess = mainBlock; 
@@ -308,6 +312,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout ClippuzAudioProcessor::creat
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DRIVE", "Drive (dB)", 0.0f, 40.0f, 0.0f));
 
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LPFREQ", "Lowpass Freq (Hz)", 200.0f, 15000.0f, 1956.8f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LPQ", "Lowpass Reso", 0.1f, 10.0f, EqFilter::OctToQ(0.66f)));
 
     return { params.begin(), params.end() };
 }
