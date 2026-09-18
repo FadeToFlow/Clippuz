@@ -68,6 +68,8 @@ private:
     EqFilter hpf1  { EqFilter::Type::HighPass, 1.0f, 0.0f, 1.0f / sqrtf(2.0f)};
     EqFilter hpf2  { EqFilter::Type::HighPass, 30.0f, 0.0f, 1.0f / sqrtf(2.0f)};
     EqFilter hpf3  { EqFilter::Type::HighPass, 20.0f, 0.0f, 1.0f / sqrtf(2.0f)};
+
+    std::vector<EqFilter*> allFilters{&eq1_f1, &eq1_f2, &hpf1, &hpf2, &hpf3};
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ClippuzAudioProcessor)
