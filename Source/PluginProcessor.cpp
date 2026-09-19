@@ -312,8 +312,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout ClippuzAudioProcessor::creat
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain (dB)", -10.0f, 20.0f, 0.0f));
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("LPFREQ", "Lowpass Freq (Hz)", 200.0f, 15000.0f, 1956.8f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("LPQ", "Lowpass Reso", 0.1f, 10.0f, EqFilter::OctToQ(0.66f)));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LPFREQ", "Lowpass Hz", 200.0f, 15000.0f, 1956.8f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("LPQ", "Lowpass Q", 0.1f, 10.0f, EqFilter::OctToQ(0.66f)));
 
     return { params.begin(), params.end() };
 }
