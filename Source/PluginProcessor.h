@@ -66,13 +66,13 @@ private:
     size_t prevOsIndex;
 
   
-    EqFilter eq1_f1  { EqFilter::Type::Peak, 383.1f, 7.2f, EqFilter::OctToQ(2.60f) };
-    EqFilter eq1_f2  { EqFilter::Type::LowPass, 1956.8f, 0.0f, EqFilter::OctToQ(0.66f) };
+    EqFilter eqPeak  { EqFilter::Type::Peak, 383.1f, 7.2f, EqFilter::OctToQ(2.60f) };
+    EqFilter eqLowPass  { EqFilter::Type::LowPass, 1956.8f, 0.0f, EqFilter::OctToQ(0.66f) };
     EqFilter hpf1  { EqFilter::Type::HighPass, 1.0f, 0.0f, 1.0f / sqrtf(2.0f)};
     EqFilter hpf2  { EqFilter::Type::HighPass, 30.0f, 0.0f, 1.0f / sqrtf(2.0f)};
     EqFilter hpf3  { EqFilter::Type::HighPass, 20.0f, 0.0f, 1.0f / sqrtf(2.0f)};
 
-    std::vector<EqFilter*> allFilters{&eq1_f1, &eq1_f2, &hpf1, &hpf2, &hpf3};
+    std::vector<EqFilter*> allFilters{&eqPeak, &eqLowPass, &hpf1, &hpf2, &hpf3};
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ClippuzAudioProcessor)

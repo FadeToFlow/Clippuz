@@ -188,9 +188,9 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     float driveGain = juce::Decibels::decibelsToGain(driveDb);
 
     float lpFreq = apvts.getRawParameterValue("LPFREQ")->load();
-    eq1_f2.setFreq(lpFreq);
+    eqLowPass.setFreq(lpFreq);
     float lpQ = apvts.getRawParameterValue("LPQ")->load();
-    eq1_f2.setQ(lpQ);
+    eqLowPass.setQ(lpQ);
 
     float bias = apvts.getRawParameterValue("BIAS")->load();
 
@@ -233,8 +233,8 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
         {
             float x = data[i] * driveGain;
             
-            x = eq1_f1[ch].processSample(x);
-            x = eq1_f2[ch].processSample(x);
+            x = eqPeak[ch].processSample(x);
+            x = eqLowPass[ch].processSample(x);
 
             x += bias;
 
