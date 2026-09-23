@@ -250,18 +250,16 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
             float x = data[i] * driveGain;
             
             x = eqPeak[ch].processSample(x);
-            x = eqLowPass[ch].processSample(x);
-
-            x += bias;
+            x = eqLowPass[ch].processSample(x);           
 
             x *= juce::Decibels::decibelsToGain(clip1_gain);
+            x += bias;
             if (cl1_mode) if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f);
 
             x = hpf1[ch].processSample(x);
 
-            x += bias2;
-
             x *= juce::Decibels::decibelsToGain(clip2_gain);
+            x += bias2;           
             if (cl2_mode) if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f); 
             
             x = hpf2[ch].processSample(x);
@@ -335,15 +333,16 @@ juce::AudioProcessorValueTreeState::ParameterLayout ClippuzAudioProcessor::creat
     params.push_back(std::make_unique<juce::AudioParameterFloat>("PFREQ", "Peak Hz", 20.0f, 15000.0f, 383.1f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("PQ", "Peak Q", 0.1f, 10.0f, EqFilter::OctToQ(2.60f)));  
     params.push_back(std::make_unique<juce::AudioParameterFloat>("PGAIN", "Peak Gain", 0.0f, 20.0f, 7.2f));  
-
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("BIAS", "Bias 1", -0.7f, 0.7f, 0.52f));
+    
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CL1GAIN", "Clipper 1 Gain", -10.0f, 50.0f, 4.9f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("BIAS", "Clipper 1 Bias", -1.0f, 1.0f, 0.7f));
     juce::StringArray cl1_choices { "Off", "Hard" };
     params.push_back(std::make_unique<juce::AudioParameterChoice>("CL1MODE", "Clipper 1 Mode", cl1_choices, 1));    
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SPEED", "Release Speed", 0.1f, 30.0f, 1.0f));
     
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("BIAS2", "Bias 2", -0.7f, 0.7f, -0.51f*juce::Decibels::decibelsToGain(4.6)));
+    
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CL2GAIN", "Clipper 2 Gain", -10.0f, 50.0f, 0.8f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("BIAS2", "Clipper 2 Bias", -1.0f, 1.0f, -0.7f));
     juce::StringArray cl2_choices { "Off", "Hard" };
     params.push_back(std::make_unique<juce::AudioParameterChoice>("CL2MODE", "Clipper 2 Mode", cl2_choices, 1));     
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SPEED2", "Release Speed 2", 0.1f, 30.0f, 30.0f));
