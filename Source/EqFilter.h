@@ -28,7 +28,7 @@ public:
     void setSampleRate(double sampleRate);
     void setFreq(float freqHz);
     void setQ(float Q);
-    void EqFilter::setGain(float gainDb);
+    void setGain(float gainDb);
 
     juce::dsp::IIR::Filter<double>&       operator[](int ch)       { return m_filters[ch]; }
     const juce::dsp::IIR::Filter<double>& operator[](int ch) const { return m_filters[ch]; }
