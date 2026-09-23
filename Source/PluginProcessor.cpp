@@ -196,6 +196,8 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     eqPeak.setQ(apvts.getRawParameterValue("PQ")->load());
     eqPeak.setGain(apvts.getRawParameterValue("PGAIN")->load());
 
+
+
     float bias = apvts.getRawParameterValue("BIAS")->load();
 
     float speed = apvts.getRawParameterValue("SPEED")->load();
@@ -324,8 +326,17 @@ juce::AudioProcessorValueTreeState::ParameterLayout ClippuzAudioProcessor::creat
     params.push_back(std::make_unique<juce::AudioParameterFloat>("PQ", "Peak Q", 0.1f, 10.0f, EqFilter::OctToQ(2.60f)));  
     params.push_back(std::make_unique<juce::AudioParameterFloat>("PGAIN", "Peak Gain", 0.0f, 20.0f, 7.2f));  
 
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("BIAS", "Bias", -0.7f, 0.7f, 0.52f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("BIAS", "Bias 1", -0.7f, 0.7f, 0.52f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("CL1GAIN", "Clipper 1 Gain", -10.0f, 50.0f, 4.9f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SPEED", "Release Speed", 0.1f, 30.0f, 1.0f));
+    
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("BIAS2", "Bias 2", -0.7f, 0.7f, -0.51f*juce::Decibels::decibelsToGain(4.6)));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("CL2GAIN", "Clipper 2 Gain", -10.0f, 50.0f, 0.8f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SPEED2", "Release Speed 2", 0.1f, 30.0f, 30.0f));
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("CL3GAIN", "Clipper 3 Gain", -10.0f, 50.0f, 50.0f));
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("OUTPUT", "Output", -10.0f, 20.0f, -10.6f));
 
     return { params.begin(), params.end() };
 }
