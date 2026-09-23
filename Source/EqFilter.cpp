@@ -89,3 +89,12 @@ void EqFilter::setQ(float Q)
     m_Q = Q;
     updateCoefficients();
 }
+
+void EqFilter::setGain(float gainDb)
+{
+    if (juce::approximatelyEqual(m_gainDb, gainDb))
+        return;    
+
+    m_gainDb = gainDb;
+    updateCoefficients();
+}
