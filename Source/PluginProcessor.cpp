@@ -209,6 +209,10 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     hpf1.setFreq(speed);
     hpf2.setFreq(speed2);
 
+    size_t cl1_mode = static_cast<size_t> (apvts.getRawParameterValue ("CL1MODE")->load()); 
+    size_t cl2_mode = static_cast<size_t> (apvts.getRawParameterValue ("CL2MODE")->load()); 
+    size_t cl3_mode = static_cast<size_t> (apvts.getRawParameterValue ("CL3MODE")->load()); 
+
     juce::dsp::AudioBlock<float> mainBlock(buffer);
     juce::dsp::AudioBlock<float> blockToProcess = mainBlock; 
 
@@ -251,19 +255,19 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
             x += bias;
 
             x *= juce::Decibels::decibelsToGain(clip1_gain);
-            if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f);
+            if (cl1_mode) if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f);
 
             x = hpf1[ch].processSample(x);
 
             x += bias2;
 
             x *= juce::Decibels::decibelsToGain(clip2_gain);
-            if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f); 
+            if (cl2_mode) if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f); 
             
             x = hpf2[ch].processSample(x);
 
             x *= juce::Decibels::decibelsToGain(clip3_gain);
-            if (fabs(x) > 1.0f) x = (x > 0 ? 1.0 : -1.0);
+            if (cl3_mode) if (fabs(x) > 1.0f) x = (x > 0 ? 1.0 : -1.0);
 
             x *= juce::Decibels::decibelsToGain(output);  
 
@@ -334,13 +338,19 @@ juce::AudioProcessorValueTreeState::ParameterLayout ClippuzAudioProcessor::creat
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("BIAS", "Bias 1", -0.7f, 0.7f, 0.52f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CL1GAIN", "Clipper 1 Gain", -10.0f, 50.0f, 4.9f));
+    juce::StringArray cl1_choices { "Off", "Hard" };
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("CL1MODE", "Clipper 1 Mode", cl1_choices, 1));    
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SPEED", "Release Speed", 0.1f, 30.0f, 1.0f));
     
     params.push_back(std::make_unique<juce::AudioParameterFloat>("BIAS2", "Bias 2", -0.7f, 0.7f, -0.51f*juce::Decibels::decibelsToGain(4.6)));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CL2GAIN", "Clipper 2 Gain", -10.0f, 50.0f, 0.8f));
+    juce::StringArray cl2_choices { "Off", "Hard" };
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("CL2MODE", "Clipper 2 Mode", cl2_choices, 1));     
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SPEED2", "Release Speed 2", 0.1f, 30.0f, 30.0f));
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("CL3GAIN", "Clipper 3 Gain", -10.0f, 50.0f, 50.0f));
+    juce::StringArray cl3_choices { "Off", "Hard" };
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("CL3MODE", "Clipper 3 Mode", cl3_choices, 1));    
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("OUTPUT", "Output", -10.0f, 20.0f, -10.6f));
 
