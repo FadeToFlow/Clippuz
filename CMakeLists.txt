@@ -12,13 +12,13 @@ FetchContent_MakeAvailable(JUCE)
 
 juce_add_plugin(Clippuz
     COMPANY_NAME            FadeToFlow
-    BUNDLE_ID               com.fadetoflow.clippuz
+    BUNDLE_ID               com.fadetoflow.clippuzadvanced
     PLUGIN_MANUFACTURER_CODE FTFl
-    PLUGIN_CODE             Clpz
+    PLUGIN_CODE             Clza
     FORMATS                 VST3 LV2 AU Standalone
     LV2URI                  "https://github.com/FadeToFlow/Clippuz"
     VST3_CATEGORIES         Fx Distortion
-    PRODUCT_NAME            "Clippuz")
+    PRODUCT_NAME            "ClippuzAdvanced")
 
 juce_generate_juce_header(Clippuz)
 
