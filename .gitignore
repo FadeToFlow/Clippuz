@@ -61,3 +61,6 @@ Desktop.ini
 .env
 .env.*
 !.env.example
+
+rendered/
+test_signals/

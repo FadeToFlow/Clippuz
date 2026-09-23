@@ -33,3 +33,40 @@ target_compile_definitions(Clippuz PUBLIC
 target_link_libraries(Clippuz PRIVATE
     juce::juce_audio_utils juce::juce_dsp
     PUBLIC juce::juce_recommended_config_flags juce::juce_recommended_warning_flags)
+
+
+juce_add_console_app(RegressionRender
+    PRODUCT_NAME "RegressionRender")
+ 
+juce_generate_juce_header(RegressionRender)
+ 
+target_sources(RegressionRender PRIVATE
+    Source/PluginProcessor.cpp   
+    Source/EqFilter.cpp          
+    Tools/regression_render.cpp) 
+ 
+target_include_directories(RegressionRender PRIVATE Source)
+ 
+target_compile_definitions(RegressionRender PRIVATE
+    JUCE_WEB_BROWSER=0
+    JUCE_USE_CURL=0
+    JucePlugin_Name="Clippuz"
+    JucePlugin_IsSynth=0
+    JucePlugin_IsMidiEffect=0
+    JucePlugin_WantsMidiInput=0
+    JucePlugin_ProducesMidiOutput=0)
+ 
+target_link_libraries(RegressionRender PRIVATE
+    juce::juce_audio_utils
+    juce::juce_dsp
+    juce::juce_recommended_config_flags
+    juce::juce_recommended_warning_flags)
+ 
+enable_testing()
+ 
+add_test(NAME regression_tests
+    COMMAND python3 ${CMAKE_SOURCE_DIR}/Tools/run_regression_tests.py
+            --render-exe $<TARGET_FILE:RegressionRender>
+            --signals-dir ${CMAKE_SOURCE_DIR}/test_signals
+            --reference-dir ${CMAKE_SOURCE_DIR}/test_signals/reference
+            --eps 1e-5)
