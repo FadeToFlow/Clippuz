@@ -240,24 +240,20 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
 
             x *= juce::Decibels::decibelsToGain(4.9);
             if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f);
-            x *= juce::Decibels::decibelsToGain(-4.6);
 
             x = hpf1[ch].processSample(x);
 
-            x -= 0.51f;
+            x -= 0.51f*juce::Decibels::decibelsToGain(4.6);
 
-            x *= juce::Decibels::decibelsToGain(5.4);
-            if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f);
-            x *= juce::Decibels::decibelsToGain(-1.4);    
+            x *= juce::Decibels::decibelsToGain(0.8);
+            if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f); 
             
             x = hpf2[ch].processSample(x);
-            x *= juce::Decibels::decibelsToGain(15.4f); 
-            
-            {
-                float th = Decibels::decibelsToGain(-36.0f);
-                if (fabs(x) > th) x = (x > 0 ? th : -th);
-                x *= juce::Decibels::decibelsToGain(25.4);   
-            }
+
+            x *= juce::Decibels::decibelsToGain(50.0f);
+            if (fabs(x) > 1.0f) x = (x > 0 ? 1.0 : -1.0);
+
+            x *= juce::Decibels::decibelsToGain(-10.6f);  
 
             x = hpf3[ch].processSample(x);
 

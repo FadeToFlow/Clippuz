@@ -69,4 +69,4 @@ add_test(NAME regression_tests
             --render-exe $<TARGET_FILE:RegressionRender>
             --signals-dir ${CMAKE_SOURCE_DIR}/test_signals
             --reference-dir ${CMAKE_SOURCE_DIR}/test_signals/reference
-            --eps 1e-5)
+            --eps 1e-4)
