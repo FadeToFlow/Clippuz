@@ -196,12 +196,18 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     eqPeak.setQ(apvts.getRawParameterValue("PQ")->load());
     eqPeak.setGain(apvts.getRawParameterValue("PGAIN")->load());
 
-
+    float clip1_gain = apvts.getRawParameterValue("CL1GAIN")->load();
+    float bias2 = apvts.getRawParameterValue("BIAS2")->load();
+    float clip2_gain = apvts.getRawParameterValue("CL2GAIN")->load();
+    float speed2 = apvts.getRawParameterValue("SPEED2")->load();
+    float clip3_gain = apvts.getRawParameterValue("CL3GAIN")->load();
+    float output = apvts.getRawParameterValue("OUTPUT")->load();
 
     float bias = apvts.getRawParameterValue("BIAS")->load();
 
     float speed = apvts.getRawParameterValue("SPEED")->load();
     hpf1.setFreq(speed);
+    hpf2.setFreq(speed2);
 
     juce::dsp::AudioBlock<float> mainBlock(buffer);
     juce::dsp::AudioBlock<float> blockToProcess = mainBlock; 
@@ -244,22 +250,22 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
 
             x += bias;
 
-            x *= juce::Decibels::decibelsToGain(4.9);
+            x *= juce::Decibels::decibelsToGain(clip1_gain);
             if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f);
 
             x = hpf1[ch].processSample(x);
 
-            x -= 0.51f*juce::Decibels::decibelsToGain(4.6);
+            x += bias2;
 
-            x *= juce::Decibels::decibelsToGain(0.8);
+            x *= juce::Decibels::decibelsToGain(clip2_gain);
             if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f); 
             
             x = hpf2[ch].processSample(x);
 
-            x *= juce::Decibels::decibelsToGain(50.0f);
+            x *= juce::Decibels::decibelsToGain(clip3_gain);
             if (fabs(x) > 1.0f) x = (x > 0 ? 1.0 : -1.0);
 
-            x *= juce::Decibels::decibelsToGain(-10.6f);  
+            x *= juce::Decibels::decibelsToGain(output);  
 
             x = hpf3[ch].processSample(x);
 
