@@ -16,7 +16,7 @@ juce_add_plugin(Clippuz
     PLUGIN_MANUFACTURER_CODE FTFl
     PLUGIN_CODE             Clza
     FORMATS                 VST3 LV2 AU Standalone
-    LV2URI                  "https://github.com/FadeToFlow/Clippuz"
+    LV2URI                  "https://github.com/FadeToFlow/Clippuz/tree/advanced"
     VST3_CATEGORIES         Fx Distortion
     PRODUCT_NAME            "ClippuzAdvanced")
 
