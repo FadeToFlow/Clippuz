@@ -227,7 +227,8 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
 
     ClipFn clipper;
     //clipper = hardClip;
-    clipper = diodeClip1N4148;
+    //clipper = diodeClip1N4148;
+    clipper = diodeClipDO7;
 
     for (size_t ch = 0; ch < blockToProcess.getNumChannels(); ++ch)
     {
