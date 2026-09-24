@@ -225,6 +225,8 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
         blockToProcess = oversamplers[osIndex - 1]->processSamplesUp(mainBlock);
     }
 
+    ClipFn clipper = hardClip;
+
     for (size_t ch = 0; ch < blockToProcess.getNumChannels(); ++ch)
     {
         auto* data = blockToProcess.getChannelPointer(ch);
@@ -239,19 +241,19 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
             x += bias;
 
             x *= juce::Decibels::decibelsToGain(4.9);
-            if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f);
+            x = clipper(x);
 
             x = hpf1[ch].processSample(x);
 
             x -= 0.51f*juce::Decibels::decibelsToGain(4.6);
 
             x *= juce::Decibels::decibelsToGain(0.8);
-            if (fabs(x) > 1.0f) x = (x > 0 ? 1.0f : -1.0f); 
+            x = clipper(x);
             
             x = hpf2[ch].processSample(x);
 
             x *= juce::Decibels::decibelsToGain(50.0f);
-            if (fabs(x) > 1.0f) x = (x > 0 ? 1.0 : -1.0);
+            x = clipper(x);
 
             x *= juce::Decibels::decibelsToGain(-10.6f);  
 

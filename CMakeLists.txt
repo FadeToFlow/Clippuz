@@ -25,7 +25,8 @@ juce_generate_juce_header(Clippuz)
 target_sources(Clippuz PRIVATE
     Source/PluginProcessor.cpp
     Source/PluginEditor.cpp
-    Source/EqFilter.cpp)
+    Source/EqFilter.cpp
+    Source/Clipper.cpp)
 
 target_compile_definitions(Clippuz PUBLIC
     JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0)
@@ -42,7 +43,8 @@ juce_generate_juce_header(RegressionRender)
  
 target_sources(RegressionRender PRIVATE
     Source/PluginProcessor.cpp   
-    Source/EqFilter.cpp          
+    Source/EqFilter.cpp  
+    Source/Clipper.cpp        
     Tools/regression_render.cpp) 
  
 target_include_directories(RegressionRender PRIVATE Source)

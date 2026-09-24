@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "EqFilter.h"
+#include "Clipper.h"
 
 //==============================================================================
 /**
