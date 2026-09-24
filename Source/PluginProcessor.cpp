@@ -331,7 +331,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout ClippuzAudioProcessor::creat
     params.push_back(std::make_unique<juce::AudioParameterChoice>("OS", "Oversampling", osChoices, 0));
 
     juce::StringArray cl1_choices { "Hard", "1N4148", "DO-7" };
-    params.push_back(std::make_unique<juce::AudioParameterChoice>("CL1MODE", "Clipper 1 Mode", cl1_choices, 1));      
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("CL1MODE", "Clipper Mode", cl1_choices, 1));      
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain (dB)", -10.0f, 30.0f, 0.0f));
 
