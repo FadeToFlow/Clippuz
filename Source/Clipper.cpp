@@ -122,3 +122,36 @@ float diodeClipDO7(float in)
 
     return (y0 + t * (y1 - y0)) * signIn / amp;
 }
+
+float diodeClipDO7cubic(float in) 
+{
+    float amp = diodeDO7[N-1];
+    float absIn = fabs(in) * amp;
+    float signIn = in >= 0 ? 1.0f : -1.0f;
+
+    if (absIn >= U_MAX) {
+        return diodeDO7[N-1] * signIn / amp;
+    }
+
+    const float pos = absIn / STEP;
+    int i = static_cast<int>(pos);
+    if (i > N - 2) i = N - 2;
+
+    const float t = pos - i;
+
+    const float y0 = diodeDO7[i];
+    const float y1 = diodeDO7[i + 1];
+
+    // Extrapolation instead of cloning at the boundaries
+    const float y_1 = (i > 0)     ? diodeDO7[i - 1] : (2.0f * y0 - y1);
+    const float y2  = (i < N - 2) ? diodeDO7[i + 2] : (2.0f * y1 - y0);
+
+    const float a0 = -0.5f*y_1 + 1.5f*y0 - 1.5f*y1 + 0.5f*y2;
+    const float a1 =  y_1 - 2.5f*y0 + 2.0f*y1 - 0.5f*y2;
+    const float a2 = -0.5f*y_1 + 0.5f*y1;
+    const float a3 =  y0;
+
+    const float out = ((a0*t + a1)*t + a2)*t + a3;
+
+    return out * signIn / amp;
+}
