@@ -225,7 +225,9 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
         blockToProcess = oversamplers[osIndex - 1]->processSamplesUp(mainBlock);
     }
 
-    ClipFn clipper = hardClip;
+    ClipFn clipper;
+    //clipper = hardClip;
+    clipper = diodeClip1N4148;
 
     for (size_t ch = 0; ch < blockToProcess.getNumChannels(); ++ch)
     {
