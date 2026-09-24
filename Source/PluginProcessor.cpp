@@ -226,9 +226,23 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     }
 
     ClipFn clipper;
-    //clipper = hardClip;
-    //clipper = diodeClip1N4148;
-    clipper = diodeClipDO7;
+    size_t clipIndex = static_cast<size_t> (apvts.getRawParameterValue ("CL1MODE")->load()); 
+
+    switch (clipIndex)
+    {
+    case 0:
+        clipper = hardClip;
+        break;
+    case 1:
+        clipper = diodeClip1N4148;
+        break;
+    case 2:
+        clipper = diodeClipDO7;
+        break;        
+    default:
+        clipper = hardClip;
+        break;
+    }
 
     for (size_t ch = 0; ch < blockToProcess.getNumChannels(); ++ch)
     {
@@ -315,6 +329,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout ClippuzAudioProcessor::creat
         
     juce::StringArray osChoices { "1x (Off)", "2x", "4x", "8x", "16x" };
     params.push_back(std::make_unique<juce::AudioParameterChoice>("OS", "Oversampling", osChoices, 0));
+
+    juce::StringArray cl1_choices { "Hard", "1N4148", "DO-7" };
+    params.push_back(std::make_unique<juce::AudioParameterChoice>("CL1MODE", "Clipper 1 Mode", cl1_choices, 1));      
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain (dB)", -10.0f, 20.0f, 0.0f));
 
