@@ -104,12 +104,12 @@ float diodeClip1N4148(float in)
 
 float diodeClipDO7(float in) 
 {
-    float amp = diode1N4148[N-1];
+    float amp = diodeDO7[N-1];
     float absIn = fabs(in) * amp;
     float signIn = in >= 0 ? 1.0f : -1.0f;
 
     if (absIn >= U_MAX) {
-        return diode1N4148[N-1] * signIn / amp;
+        return diodeDO7[N-1] * signIn / amp;
     }
 
     const float pos = absIn / STEP;     
@@ -117,8 +117,8 @@ float diodeClipDO7(float in)
     if (i > N - 2) i = N - 2;           
 
     const float t  = pos - i;            
-    const float y0 = diode1N4148[i];
-    const float y1 = diode1N4148[i + 1];
+    const float y0 = diodeDO7[i];
+    const float y1 = diodeDO7[i + 1];
 
     return (y0 + t * (y1 - y0)) * signIn / amp;
 }
