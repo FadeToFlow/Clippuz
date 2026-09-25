@@ -186,3 +186,13 @@ float qubicClip(float in)
 
     return (absIn - absIn*absIn*absIn/27.0f)*signIn/2.0f;
 }
+
+float pow8Clip(float in)
+{
+    return quadClip(quadClip(quadClip(in)));
+}
+
+float pow8foldClip(float in)
+{
+    return quadClipFold(quadClipFold(quadClipFold(in)));
+}

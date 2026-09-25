@@ -13,3 +13,6 @@ float quadClip(float in);
 float quadClipFold(float in);
 
 float qubicClip(float in);
+
+float pow8Clip(float in);
+float pow8foldClip(float in);
