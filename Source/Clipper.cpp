@@ -173,3 +173,13 @@ float quadClipFold(float in)
 
     return quadClip((absIn - absIn*absIn/4)*signIn);
 }
+
+float qubicClip(float in)
+{
+    float absIn = fabs(in);
+    float signIn = in >= 0 ? 1.0f : -1.0f;    
+
+    if (absIn > 3.0f) return 2.0f*signIn/2.0f;
+
+    return (absIn - absIn*absIn*absIn/27.0f)*signIn/2.0f;
+}

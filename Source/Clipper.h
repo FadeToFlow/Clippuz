@@ -11,3 +11,5 @@ float diodeClipDO7cubic(float in);
 
 float quadClip(float in);
 float quadClipFold(float in);
+
+float qubicClip(float in);
