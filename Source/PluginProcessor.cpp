@@ -241,7 +241,13 @@ void ClippuzAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
         break;   
     case 3:
         clipper = diodeClipDO7cubic; 
-        break;        
+        break; 
+    case 4:
+        clipper = quadClip; 
+        break;               
+    case 5:
+        clipper = quadClipFold; 
+        break;   
     default:
         clipper = hardClip;
         break;
@@ -333,7 +339,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout ClippuzAudioProcessor::creat
     juce::StringArray osChoices { "1x (Off)", "2x", "4x", "8x", "16x" };
     params.push_back(std::make_unique<juce::AudioParameterChoice>("OS", "Oversampling", osChoices, 0));
 
-    juce::StringArray cl1_choices { "Hard", "1N4148", "DO-7", "DO-7 cubic" };
+    juce::StringArray cl1_choices { "Hard", "1N4148", "DO-7", "DO-7 cubic", "Quad", "Quad Fold" };
     params.push_back(std::make_unique<juce::AudioParameterChoice>("CL1MODE", "Clipper Mode", cl1_choices, 1));      
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain (dB)", -10.0f, 30.0f, 0.0f));

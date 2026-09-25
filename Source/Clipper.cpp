@@ -155,3 +155,21 @@ float diodeClipDO7cubic(float in)
 
     return out * signIn / amp;
 }
+
+float quadClip(float in)
+{
+    float absIn = fabs(in);
+    float signIn = in >= 0 ? 1.0f : -1.0f;    
+
+    if (absIn > 2) return 1.0f*signIn;
+
+    return (absIn - absIn*absIn/4)*signIn;
+}
+
+float quadClipFold(float in)
+{
+    float absIn = fabs(in);
+    float signIn = in >= 0 ? 1.0f : -1.0f;    
+
+    return quadClip((absIn - absIn*absIn/4)*signIn);
+}
